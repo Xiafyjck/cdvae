@@ -110,7 +110,7 @@ def build_crystal_graph(crystal, graph_method='crystalnn'):
     """
 
     if graph_method == 'crystalnn':
-        crystal_graph = StructureGraph.with_local_env_strategy(
+        crystal_graph = StructureGraph.from_local_env_strategy(
             crystal, CrystalNN)
     elif graph_method == 'none':
         pass

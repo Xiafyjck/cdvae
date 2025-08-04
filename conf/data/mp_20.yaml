@@ -1,3 +1,4 @@
+name: mp_20
 root_path: ${oc.env:PROJECT_ROOT}/data/mp_20
 prop: formation_energy_per_atom
 num_targets: 1

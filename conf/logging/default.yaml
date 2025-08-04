@@ -1,6 +1,5 @@
 # log frequency
-val_check_interval: 5
-progress_bar_refresh_rate: 20
+val_check_interval: 1  # 改为 1，每个 epoch 都验证
 
 wandb:
   name: ${expname}

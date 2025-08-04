@@ -1,3 +1,4 @@
+name: carbon
 root_path: ${oc.env:PROJECT_ROOT}/data/carbon_24
 prop: energy_per_atom
 num_targets: 1

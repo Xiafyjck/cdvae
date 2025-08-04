@@ -1,0 +1,8 @@
+# conf/train/multi_gpu.yaml
+defaults:
+  - default
+
+pl_trainer:
+  accelerator: gpu
+  devices: -1  # 使用所有可用GPU
+  strategy: ddp_find_unused_parameters_true

@@ -1,10 +1,17 @@
 """This module is adapted from https://github.com/Open-Catalyst-Project/ocp/tree/master/ocpmodels/models
 """
+import numpy as np
+import math
+if not hasattr(np, 'math'):
+    np.math = math
 
 import torch
 import torch.nn as nn
 from torch_scatter import scatter
-from torch_geometric.nn.acts import swish
+try:
+    from torch_geometric.nn.acts import swish
+except ImportError:
+    from torch_geometric.nn.resolver import swish
 from torch_geometric.nn.inits import glorot_orthogonal
 from torch_geometric.nn.models.dimenet import (
     BesselBasisLayer,

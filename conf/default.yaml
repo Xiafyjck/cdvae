@@ -1,4 +1,6 @@
-expname: test
+# conf/default.yaml
+name: ???  # 新增：自动生成实验名
+expname: ${name}  # 保持向后兼容
 
 # metadata specialised for each experiment
 core:
@@ -7,23 +9,25 @@ core:
     - ${now:%Y-%m-%d}
 
 hydra:
+  job:
+    chdir: true  # 新增：切换到输出目录
+    env_set:
+      WANDB_DIR: ${oc.env:WABDB_DIR}
+      
   run:
-    dir: ${oc.env:HYDRA_JOBS}/singlerun/${now:%Y-%m-%d}/${expname}/
+    dir: outputs/${name}/${now:%m-%d-%H-%M-%S}  # 修改：新的目录结构
 
   sweep:
-    dir: ${oc.env:HYDRA_JOBS}/multirun/${now:%Y-%m-%d}/${expname}/
-    subdir: ${hydra.job.num}_${hydra.job.id}
-
-  job:
-    env_set:
-      WANDB_START_METHOD: thread
-      WANDB_DIR: ${oc.env:WABDB_DIR}
+    dir: outputs/${now:%Y-%m-%d}/sweep-${name}  # 修改：sweep 目录
+    subdir: ${hydra.job.num}
 
 defaults:
-  - data: default
+  - _self_
+  - data: ???
   - logging: default
   - model: vae
   - optim: default
-  - train: default
-#    Decomment this parameter to get parallel job running
-  # - override hydra/launcher: joblib
+  - train: multi_gpu.yaml
+
+# 新增：恢复训练相关配置
+resume_from: null  # 可以指定其他运行的路径来恢复训练l

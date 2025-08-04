@@ -1,0 +1,8 @@
+# conf/train/single_gpu.yaml
+defaults:
+  - default
+
+pl_trainer:
+  accelerator: gpu
+  devices: 1
+  strategy: auto

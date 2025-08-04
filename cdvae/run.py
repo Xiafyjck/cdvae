@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 import hydra
 import numpy as np
@@ -50,11 +50,46 @@ def build_callbacks(cfg: DictConfig) -> List[Callback]:
                 monitor=cfg.train.monitor_metric,
                 mode=cfg.train.monitor_metric_mode,
                 save_top_k=cfg.train.model_checkpoints.save_top_k,
+                save_last=True,
                 verbose=cfg.train.model_checkpoints.verbose,
+                filename="{epoch:04d}-{step:06d}",
             )
         )
 
     return callbacks
+
+
+def find_latest_checkpoint(checkpoint_dir: Path) -> Optional[str]:
+    """查找最新的检查点"""
+    if not checkpoint_dir.exists():
+        return None
+    
+    # 优先使用 last.ckpt
+    last_ckpt = checkpoint_dir / "last.ckpt"
+    if last_ckpt.exists():
+        return str(last_ckpt)
+    
+    # 查找所有检查点
+    ckpts = list(checkpoint_dir.glob("*.ckpt"))
+    if not ckpts:
+        return None
+    
+    # 解析 epoch 数找最新的
+    ckpt_info = []
+    for ckpt in ckpts:
+        try:
+            parts = ckpt.stem.split("-")
+            epoch = int(parts[0].split("=")[1])
+            ckpt_info.append((epoch, ckpt))
+        except:
+            continue
+    
+    if ckpt_info:
+        ckpt_info.sort(key=lambda x: x[0])
+        return str(ckpt_info[-1][1])
+    
+    # 如果无法解析，返回最新修改的
+    return str(max(ckpts, key=lambda p: p.stat().st_mtime))
 
 
 def run(cfg: DictConfig) -> None:
@@ -72,7 +107,8 @@ def run(cfg: DictConfig) -> None:
             f"Forcing debugger friendly configuration!"
         )
         # Debuggers don't like GPUs nor multiprocessing
-        cfg.train.pl_trainer.gpus = 0
+        cfg.train.pl_trainer.accelerator = "cpu"
+        cfg.train.pl_trainer.devices = 1
         cfg.data.datamodule.num_workers.train = 0
         cfg.data.datamodule.num_workers.val = 0
         cfg.data.datamodule.num_workers.test = 0
@@ -103,8 +139,10 @@ def run(cfg: DictConfig) -> None:
     hydra.utils.log.info(f"Passing scaler from datamodule to model <{datamodule.scaler}>")
     model.lattice_scaler = datamodule.lattice_scaler.copy()
     model.scaler = datamodule.scaler.copy()
+    hydra_dir.mkdir(parents=True, exist_ok=True)
     torch.save(datamodule.lattice_scaler, hydra_dir / 'lattice_scaler.pt')
     torch.save(datamodule.scaler, hydra_dir / 'prop_scaler.pt')
+    
     # Instantiate the callbacks
     callbacks: List[Callback] = build_callbacks(cfg=cfg)
 
@@ -117,7 +155,7 @@ def run(cfg: DictConfig) -> None:
             **wandb_config,
             tags=cfg.core.tags,
         )
-        hydra.utils.log.info("W&B is now watching <{cfg.logging.wandb_watch.log}>!")
+        hydra.utils.log.info(f"W&B is now watching <{cfg.logging.wandb_watch.log}>!")
         wandb_logger.watch(
             model,
             log=cfg.logging.wandb_watch.log,
@@ -129,13 +167,11 @@ def run(cfg: DictConfig) -> None:
     (hydra_dir / "hparams.yaml").write_text(yaml_conf)
 
     # Load checkpoint (if exist)
-    ckpts = list(hydra_dir.glob('*.ckpt'))
-    if len(ckpts) > 0:
-        ckpt_epochs = np.array([int(ckpt.parts[-1].split('-')[0].split('=')[1]) for ckpt in ckpts])
-        ckpt = str(ckpts[ckpt_epochs.argsort()[-1]])
-        hydra.utils.log.info(f"found checkpoint: {ckpt}")
+    ckpt = find_latest_checkpoint(hydra_dir)
+    if ckpt:
+        hydra.utils.log.info(f"Found checkpoint: {ckpt}")
     else:
-        ckpt = None
+        hydra.utils.log.info("Starting fresh training")
           
     hydra.utils.log.info("Instantiating the Trainer")
     trainer = pl.Trainer(
@@ -144,14 +180,12 @@ def run(cfg: DictConfig) -> None:
         callbacks=callbacks,
         deterministic=cfg.train.deterministic,
         check_val_every_n_epoch=cfg.logging.val_check_interval,
-        progress_bar_refresh_rate=cfg.logging.progress_bar_refresh_rate,
-        resume_from_checkpoint=ckpt,
         **cfg.train.pl_trainer,
     )
     log_hyperparameters(trainer=trainer, model=model, cfg=cfg)
 
     hydra.utils.log.info("Starting training!")
-    trainer.fit(model=model, datamodule=datamodule)
+    trainer.fit(model=model, datamodule=datamodule, ckpt_path=ckpt)
 
     hydra.utils.log.info("Starting testing!")
     trainer.test(datamodule=datamodule)
@@ -161,7 +195,7 @@ def run(cfg: DictConfig) -> None:
         wandb_logger.experiment.finish()
 
 
-@hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
+@hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default", version_base="1.2")
 def main(cfg: omegaconf.DictConfig):
     run(cfg)
 
