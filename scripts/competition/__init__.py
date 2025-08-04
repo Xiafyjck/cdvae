@@ -1,0 +1,1 @@
+# Competition utilities for crystal structure generation

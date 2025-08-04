@@ -1,0 +1,36 @@
+# Competition configuration
+competition:
+  # 数据路径配置
+  data_path: ${oc.env:COMPETITION_DATA_PATH,docs/比赛用例/data}
+  output_path: ${oc.env:COMPETITION_OUTPUT_PATH,.}
+  
+  # 数据集配置
+  dataset:
+    composition_file: composition.json
+    pattern_dir: pattern
+    split: A  # A榜或B榜
+  
+  # 模型配置
+  model:
+    checkpoint_path: ${oc.env:MODEL_CHECKPOINT,cdvae/prop_models/mp20/epoch=839-step=89039.ckpt}
+    device: cuda
+    
+  # 生成策略
+  generation:
+    strategy: random_sample  # random_sample, composition_match, nearest_neighbor
+    num_samples: 10  # 每个结构生成多少个候选
+    batch_size: 32
+    temperature: 1.0
+    
+  # 输出配置
+  output:
+    submission_file: submission.csv
+    save_structures: false  # 是否保存中间生成的结构
+    
+# Hydra配置
+hydra:
+  run:
+    dir: outputs/competition/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra.job.num}
