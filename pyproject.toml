@@ -23,22 +23,28 @@ dependencies = [
 
 [tool.uv.sources]
 torch = [
-    { index = "pytorch-cu128"}
+    { index = "pytorch-cu128", marker = "sys_platform == 'linux'"},
+    { index = "pytorch-cpu", marker = "sys_platform == 'darwin'"},
 ]
 pyg_lib = [
-    { index = "geometry-cu128"}
+    { index = "geometry-cu128", marker = "sys_platform == 'linux'"},
+    { index = "geometry-cpu", marker = "sys_platform == 'darwin'"},
 ]
 torch_scatter = [
-    { index = "geometry-cu128"},
+    { index = "geometry-cu128", marker = "sys_platform == 'linux'"},
+    { index = "geometry-cpu", marker = "sys_platform == 'darwin'"},
 ]
 torch_sparse = [
-    { index = "geometry-cu128"},
+    { index = "geometry-cu128", marker = "sys_platform == 'linux'"},
+    { index = "geometry-cpu", marker = "sys_platform == 'darwin'"},
 ]
 torch_cluster = [
-    { index = "geometry-cu128"},
+    { index = "geometry-cu128", marker = "sys_platform == 'linux'"},
+    { index = "geometry-cpu", marker = "sys_platform == 'darwin'"},
 ]
 torch_spline_conv = [
-    { index = "geometry-cu128"},
+    { index = "geometry-cu128", marker = "sys_platform == 'linux'"},
+    { index = "geometry-cpu", marker = "sys_platform == 'darwin'"},
 ]
 
 [[tool.uv.index]]
@@ -47,8 +53,19 @@ url = "https://download.pytorch.org/whl/cu128"
 explicit = true
 
 [[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
 name = "geometry-cu128"
 url = "https://data.pyg.org/whl/torch-2.7.0+cu128.html"
+explicit = true
+format = "flat"
+
+[[tool.uv.index]]
+name = "geometry-cpu"
+url = "https://data.pyg.org/whl/torch-2.7.0+cpu.html"
 explicit = true
 format = "flat"
 
