@@ -55,3 +55,8 @@ format = "flat"
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cdvae", "cdvae.*"]  # 只包含 cdvae 包
+exclude = ["data", "conf", "assets", "tests*"]  # 排除其他目录
