@@ -14,14 +14,11 @@ from omegaconf import DictConfig, OmegaConf
 import torch
 from tqdm import tqdm
 
-# 添加项目根目录到Python路径
-sys.path.append(str(Path(__file__).parent.parent.parent))
-
-from scripts.competition.data_utils import (
+from .data_utils import (
     load_competition_data, 
     get_composition_statistics
 )
-from scripts.competition.baseline_models import (
+from .baseline_models import (
     RandomBaseline,
     CompositionMatchBaseline
 )
