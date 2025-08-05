@@ -6,7 +6,7 @@ wandb:
   project: crystal_generation_mit
   entity: null
   log_model: True
-  mode: 'online'
+  mode: 'offline'
   group: ${expname}
 
 wandb_watch:
