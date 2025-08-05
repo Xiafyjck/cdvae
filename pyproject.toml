@@ -51,3 +51,7 @@ name = "geometry-cu128"
 url = "https://data.pyg.org/whl/torch-2.7.0+cu128.html"
 explicit = true
 format = "flat"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
