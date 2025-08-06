@@ -137,6 +137,22 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/3e/38/7859ff46355f76f8d19459005ca000b6e7012f2f1ca597746cbcd1fbfe5e/antlr4-python3-runtime-4.9.3.tar.gz", hash = "sha256:f224469b4168294902bb1efa80a8bf7855f24c99aef99cbefc1bcd3cce77881b", size = 117034, upload-time = "2021-11-06T17:52:23.524Z" }
 
 [[package]]
+name = "ase"
+version = "3.25.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "matplotlib" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.3.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "scipy", version = "1.16.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e8/a1/5735ced2f159979f5b27c4083126b7796a5750cee6f027864e59818a5b76/ase-3.25.0.tar.gz", hash = "sha256:374cf8ca9fe588f05d6e856da3c9c17ef262dc968027b231d449334140c962c2", size = 2400055, upload-time = "2025-04-11T17:14:39.975Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/07/f5/007d993fcf3b051acb304d5402e0bd103fd20816b47dee9531bdbfb3aa0c/ase-3.25.0-py3-none-any.whl", hash = "sha256:f9a5295e1154da355af04726d001fa76a311c076616d98e49cd9f34fc3afe188", size = 2951559, upload-time = "2025-04-11T17:14:37.617Z" },
+]
+
+[[package]]
 name = "async-timeout"
 version = "5.0.1"
 source = { registry = "https://pypi.org/simple" }
@@ -175,6 +191,7 @@ dependencies = [
     { name = "pymatgen" },
     { name = "pytorch-lightning" },
     { name = "scikit-learn" },
+    { name = "smact" },
     { name = "torch" },
     { name = "torch-cluster" },
     { name = "torch-geometric" },
@@ -193,6 +210,7 @@ requires-dist = [
     { name = "pymatgen" },
     { name = "pytorch-lightning", specifier = ">=2.5.2" },
     { name = "scikit-learn", specifier = ">=1.7.1" },
+    { name = "smact", specifier = ">=3.2.0" },
     { name = "torch", specifier = ">=2.7.0", index = "https://download.pytorch.org/whl/cu128" },
     { name = "torch-cluster", index = "https://data.pyg.org/whl/torch-2.7.0+cu128.html" },
     { name = "torch-geometric" },
@@ -1534,6 +1552,17 @@ wheels = [
 ]
 
 [[package]]
+name = "pandarallel"
+version = "1.6.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dill" },
+    { name = "pandas" },
+    { name = "psutil" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6e/c5/787365399cc7262e20d1d9f42ba202018c2191e6cd5b1a2a10f9161dae35/pandarallel-1.6.5.tar.gz", hash = "sha256:1c2df98ff6441e8ae13ff428ceebaa7ec42d731f7f972c41ce4fdef1d3adf640", size = 14201, upload-time = "2023-05-02T20:43:15.214Z" }
+
+[[package]]
 name = "pandas"
 version = "2.3.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2405,6 +2434,28 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/94/e7/b2c673351809dca68a0e064b6af791aa332cf192da575fd474ed7d6f16a2/six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81", size = 34031, upload-time = "2024-12-04T17:35:28.174Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274", size = 11050, upload-time = "2024-12-04T17:35:26.475Z" },
+]
+
+[[package]]
+name = "smact"
+version = "3.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "ase" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.3.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "pandarallel" },
+    { name = "pandas" },
+    { name = "pathos" },
+    { name = "pymatgen" },
+    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "scipy", version = "1.16.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "spglib" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/05/da/b832740191cf5ab1f5430b92b222eb0cbeb325d25bdb3217e57501f257c5/smact-3.2.0.tar.gz", hash = "sha256:5c1c252bfffb86aef3e42f8712b0e42fbc968fe57a792d22c87cfe61e42761e4", size = 1899111, upload-time = "2025-07-31T09:59:17.525Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5e/15/3a8a9f627dc07905589e8aa9c29e4446fed04545340f4201fe3566bce09c/smact-3.2.0-py3-none-any.whl", hash = "sha256:740fd1f728671d8fa95ac500fd26929b483111e95b1419a597cb96cce3d98ff7", size = 1936250, upload-time = "2025-07-31T09:59:15.72Z" },
 ]
 
 [[package]]

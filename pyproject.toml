@@ -19,32 +19,27 @@ dependencies = [
     "scikit-learn>=1.7.1",
     "p-tqdm>=1.4.2",
     "dotenv>=0.9.9",
+    "smact>=3.2.0",
 ]
 
 [tool.uv.sources]
 torch = [
-    { index = "pytorch-cu128", marker = "sys_platform == 'linux'"},
-    { index = "pytorch-cpu", marker = "sys_platform == 'darwin'"},
+    { index = "pytorch-cu128"},
 ]
 pyg_lib = [
-    { index = "geometry-cu128", marker = "sys_platform == 'linux'"},
-    { index = "geometry-cpu", marker = "sys_platform == 'darwin'"},
+    { index = "geometry-cu128"},
 ]
 torch_scatter = [
-    { index = "geometry-cu128", marker = "sys_platform == 'linux'"},
-    { index = "geometry-cpu", marker = "sys_platform == 'darwin'"},
+    { index = "geometry-cu128"},
 ]
 torch_sparse = [
-    { index = "geometry-cu128", marker = "sys_platform == 'linux'"},
-    { index = "geometry-cpu", marker = "sys_platform == 'darwin'"},
+    { index = "geometry-cu128"},
 ]
 torch_cluster = [
-    { index = "geometry-cu128", marker = "sys_platform == 'linux'"},
-    { index = "geometry-cpu", marker = "sys_platform == 'darwin'"},
+    { index = "geometry-cu128"},
 ]
 torch_spline_conv = [
-    { index = "geometry-cu128", marker = "sys_platform == 'linux'"},
-    { index = "geometry-cpu", marker = "sys_platform == 'darwin'"},
+    { index = "geometry-cu128"},
 ]
 
 [[tool.uv.index]]

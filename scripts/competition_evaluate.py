@@ -21,16 +21,16 @@ from eval_utils import load_model
 
 
 # ========== 硬编码配置 ==========
-DATA_PATH = "/Users/xiafuyuan/Documents/git_repo/cdvae/docs/比赛用例/data/A"
-MODEL_PATH = "/Users/xiafuyuan/Documents/git_repo/cdvae/cdvae/prop_models/mp20/epoch=839-step=89039.ckpt"
+DATA_PATH = "/home/ma-user/work/cdvae/docs/比赛用例/data/A"
+MODEL_PATH = "/home/ma-user/work/cdvae/outputs/mp20epochs100/08-06-18-09-53/outputs/mp20epochs100/08-06-18-09-53"
 DRY_RUN = True  # 设为True时只处理前10个样本
 
 # Langevin dynamics参数
 LD_KWARGS = SimpleNamespace(
-    n_step_each=100,      # 每个噪声水平的步数
+    n_step_each=10,      # 每个噪声水平的步数
     step_lr=1e-4,         # 步长
     min_sigma=0,          # 最小噪声水平
-    save_traj=False,      # 不保存轨迹（节省内存）
+    save_traj=True,      # 不保存轨迹（节省内存）
     disable_bar=True      # 禁用进度条（避免嵌套进度条）
 )
 
