@@ -14,7 +14,10 @@ from pymatgen.core import Composition, Element
 import pandas as pd
 from pymatgen.core import Structure, Lattice
 
-from scripts.eval_utils import load_model
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent))
+from eval_utils import load_model
 
 
 # ========== 硬编码配置 ==========
