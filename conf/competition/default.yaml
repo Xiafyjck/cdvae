@@ -1,9 +1,9 @@
 # Competition configuration
 competition:
   # 数据路径配置
-  data_path: ${oc.env:COMPETITION_DATA_PATH,docs/比赛用例/data}
-  output_path: ${oc.env:COMPETITION_OUTPUT_PATH,.}
-  
+  data_path: ${/Users/xiafuyuan/Documents/git_repo/cdvae/docs/比赛用例/data}
+  output_path: ${/Users/xiafuyuan/Documents/git_repo/cdvae/outputs/competition}
+
   # 数据集配置
   dataset:
     composition_file: composition.json
