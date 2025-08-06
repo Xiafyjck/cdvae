@@ -24,6 +24,7 @@ from tqdm import tqdm
 from pymatgen.core import Composition, Element, Structure, Lattice
 import pandas as pd
 
+import os
 import sys
 sys.path.append(str(Path(__file__).parent))
 from eval_utils import load_model
@@ -31,7 +32,8 @@ from eval_utils import load_model
 
 # ========== 配置 ==========
 # 数据路径：比赛数据集的位置，包含composition.json和pattern文件夹
-DATA_PATH = "/home/ma-user/work/cdvae/docs/比赛用例/data/A"
+# DATA_PATH = "/home/ma-user/work/cdvae/docs/比赛用例/data/A"
+DATA_PATH = os.environ.get("DATA_PATH")
 
 # 模型路径：训练好的CDVAE模型checkpoint位置
 MODEL_PATH = "/home/ma-user/work/cdvae/outputs/mp20epochs100/08-06-18-09-53/outputs/mp20epochs100/08-06-18-09-53"
