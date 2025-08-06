@@ -29,6 +29,9 @@ import sys
 sys.path.append(str(Path(__file__).parent))
 from eval_utils import load_model
 
+# 尝试导入dotenv，如果不存在则忽略
+from dotenv import load_dotenv
+load_dotenv()  # 加载.env文件中的环境变量
 
 # ========== 配置 ==========
 # 数据路径：比赛数据集的位置，包含composition.json和pattern文件夹
@@ -36,7 +39,8 @@ from eval_utils import load_model
 DATA_PATH = os.environ.get("DATA_PATH")
 
 # 模型路径：训练好的CDVAE模型checkpoint位置
-MODEL_PATH = "/home/ma-user/work/cdvae/outputs/mp20epochs100/08-06-18-09-53/outputs/mp20epochs100/08-06-18-09-53"
+# 优先从环境变量获取，如果没有则使用默认值
+MODEL_PATH = os.environ.get("MODEL_PATH")
 
 # 调试模式：设为True时只处理前10个样本，用于快速测试
 DRY_RUN = False  

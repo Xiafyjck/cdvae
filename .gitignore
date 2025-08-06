@@ -110,7 +110,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-# .env
+.env
 .venv
 env/
 venv/
@@ -218,4 +218,4 @@ fabric.properties
 .DS_Store
 
 # outputs
-outputs/
+# outputs/

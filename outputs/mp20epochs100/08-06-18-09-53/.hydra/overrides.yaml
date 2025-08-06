@@ -1,0 +1,3 @@
+- data=mp_20
+- name=mp20epochs100
+- data.train_max_epochs=100
