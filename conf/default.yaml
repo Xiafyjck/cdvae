@@ -10,7 +10,7 @@ core:
 
 hydra:
   job:
-    chdir: true  # 新增：切换到输出目录
+    chdir: false  # 修改：不切换到输出目录，避免嵌套
     env_set:
       WANDB_DIR: ${oc.env:WABDB_DIR}
       

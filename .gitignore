@@ -218,4 +218,5 @@ fabric.properties
 .DS_Store
 
 # outputs
-# outputs/
+outputs/
+wandb/
